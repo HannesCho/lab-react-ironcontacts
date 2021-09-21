@@ -18,12 +18,15 @@ function App() {
   const addContact = () => {
     let randomContact = allContacts[Math.floor(Math.random() * (allContacts.length - 5) + 5)]
     const randomId = randomContact.id
-    for (let contact of contacts) {
-      if (randomId === contact.id) {
-        addContact();
+    let isInList = false;
+      for (let contact of contacts) {
+        if (randomId === contact.id) {
+           isInList = true
+        }
       }
-    }
-    setContacts(contacts => [randomContact, ...contacts])
+    if (!isInList) {
+      setContacts(contacts => [randomContact, ...contacts])
+    } 
   }
 
   const sortByPopularity = () => {
@@ -44,9 +47,12 @@ function App() {
   return (
     <div className="App">
       <h1>IronContacts</h1>
-      <button onClick={addContact}>Add Random Contact</button>
-      <button onClick={sortByPopularity}>Sort by popularity</button>
-      <button onClick={sortByName}>Sort by name</button>
+      <div className="buttons">
+        <button onClick={addContact}>Add Random Contact</button>
+        <button onClick={sortByPopularity}>Sort by popularity</button>
+        <button onClick={sortByName}>Sort by name</button>
+      </div>
+      
       <table>
         <thead>
           <tr>
