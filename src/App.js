@@ -4,14 +4,20 @@ import { useState } from 'react';
 
 function App() {
   const [contacts, setContacts] = useState(allContacts.slice(0, 5))
+  const delContact = (e, index) => {
+    const filted = contacts.filter(el => el.id === index ? false : true)
+    setContacts(contacts => [...filted])
+  }
+
   const contactLists = contacts.map(contact => {
       return (
       <tr key={contact.id}>
         <td><img src={contact.pictureUrl} alt={contact.name} width="120px"/></td>
         <td>{contact.name}</td>
         <td>{contact.popularity}</td>
-        {contact.wonOscar && <td>🏆</td>}
-        {contact.wonEmmy && <td>🏆</td>}
+        {contact.wonOscar ? <td>🏆</td> : <td></td>} 
+        {contact.wonEmmy ? <td>🌟</td> : <td></td>}
+        <td><button onClick={(e) => delContact(e, contact.id)}>Delete</button></td>
       </tr>
       )})
 
@@ -40,9 +46,10 @@ function App() {
       if(a.name > b.name) { return 1; }
       return 0;
     })
-    console.log(sortedName);
     setContacts(contacts => [...sortedName])
   }
+
+
 
   return (
     <div className="App">
@@ -61,6 +68,7 @@ function App() {
             <td>Popularity</td>
             <td>Won<br/>Oscar</td>
             <td>Won<br/>Emmy</td>
+            <td>Actions</td>
           </tr>
         </thead>
         <tbody>
